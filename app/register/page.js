@@ -30,7 +30,7 @@ export default function RegisterPage() {
       if (!res.ok) {
         setError(data.error || 'Registration failed');
       } else {
-        router.push('/welcome?u=' + encodeURIComponent(form.name));
+        router.push('/site');
       }
     } catch {
       setError('Network error');

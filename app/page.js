@@ -11,31 +11,11 @@ export default function LoginPage() {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
-  async function handleLogin(e) {
+  function handleLogin(e) {
     e.preventDefault();
-    setError('');
-    if (!username || !password) {
-      setError('Enter your login and password');
-      return;
-    }
-    setLoading(true);
-    try {
-      const res = await fetch('/api/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, password }),
-      });
-      const data = await res.json();
-      if (!res.ok) {
-        setError(data.error || 'Login failed');
-      } else {
-        router.push('/welcome?u=' + encodeURIComponent(data.name || username));
-      }
-    } catch {
-      setError('Network error');
-    } finally {
-      setLoading(false);
-    }
+    // TEMPORARY stub for previewing the flow: any login/password proceeds.
+    // Nothing typed here is saved anywhere. Replace with real auth / your site later.
+    router.push('/site');
   }
 
   return (
