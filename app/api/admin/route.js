@@ -1,5 +1,11 @@
 import { NextResponse } from 'next/server';
-import { getAllUsers, getEvents, usingRedis } from '@/lib/store';
+import {
+  getAllUsers,
+  getEvents,
+  usingRedis,
+  deleteUser,
+  clearAll,
+} from '@/lib/store';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -20,4 +26,22 @@ export async function GET(req) {
     events,
     storage: usingRedis() ? 'redis' : 'local',
   });
+}
+
+export async function DELETE(req) {
+  if (!checkKey(req)) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
+  const { searchParams } = new URL(req.url);
+  const action = searchParams.get('action');
+  if (action === 'clear') {
+    await clearAll();
+    return NextResponse.json({ ok: true });
+  }
+  const username = searchParams.get('username');
+  if (!username) {
+    return NextResponse.json({ error: 'username required' }, { status: 400 });
+  }
+  await deleteUser(username);
+  return NextResponse.json({ ok: true });
 }

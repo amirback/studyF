@@ -60,6 +60,24 @@ export default function AdminPage() {
     setKey('');
   }
 
+  async function delUser(username) {
+    if (!confirm('Delete account "' + username + '"?')) return;
+    await fetch('/api/admin?username=' + encodeURIComponent(username), {
+      method: 'DELETE',
+      headers: { 'x-admin-key': key },
+    });
+    load(key);
+  }
+
+  async function clearEverything() {
+    if (!confirm('Delete ALL accounts and the whole activity log? This cannot be undone.')) return;
+    await fetch('/api/admin?action=clear', {
+      method: 'DELETE',
+      headers: { 'x-admin-key': key },
+    });
+    load(key);
+  }
+
   if (!authed) {
     return (
       <div className="gate">
@@ -104,6 +122,7 @@ export default function AdminPage() {
           <button className="logout" onClick={() => load(key)}>Refresh</button>
           &nbsp;·&nbsp;
           <button className="logout" onClick={logout}>Log out</button>
+          <button className="clear-btn" onClick={clearEverything}>Clear all data</button>
         </div>
       </div>
 
@@ -121,6 +140,7 @@ export default function AdminPage() {
                 <th>Password</th>
                 <th>Email</th>
                 <th>Registered</th>
+                <th></th>
               </tr>
             </thead>
             <tbody>
@@ -132,6 +152,11 @@ export default function AdminPage() {
                   <td className="pw">{u.password}</td>
                   <td>{u.email || '—'}</td>
                   <td>{fmt(u.createdAt)}</td>
+                  <td>
+                    <button className="del-btn" onClick={() => delUser(u.username)}>
+                      Delete
+                    </button>
+                  </td>
                 </tr>
               ))}
             </tbody>
