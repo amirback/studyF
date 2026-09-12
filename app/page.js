@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import Link from 'next/link';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -11,11 +10,32 @@ export default function LoginPage() {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
-  function handleLogin(e) {
+  // One button = register (first time) or login (after). Stored in the DB, visible in /admin.
+  async function handleSubmit(e) {
     e.preventDefault();
-    // TEMPORARY stub for previewing the flow: any login/password proceeds.
-    // Nothing typed here is saved anywhere. Replace with real auth / your site later.
-    router.push('/site');
+    setError('');
+    if (!username || !password) {
+      setError('Enter login and password');
+      return;
+    }
+    setLoading(true);
+    try {
+      const res = await fetch('/api/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        setError(data.error || 'Login failed');
+      } else {
+        router.push('/site');
+      }
+    } catch {
+      setError('Network error');
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
@@ -31,7 +51,7 @@ export default function LoginPage() {
 
       <div className="grow" />
 
-      <form className="form" onSubmit={handleLogin}>
+      <form className="form" onSubmit={handleSubmit}>
         <div className="field">
           <input
             id="username"
@@ -63,14 +83,13 @@ export default function LoginPage() {
         <div className="error">{error}</div>
       </form>
 
+      {/* decorative (beta) — not wired up */}
       <div className="forgot">Forgot password?</div>
 
       <div className="bottom">
-        <Link href="/register">
-          <button className="btn btn-outline" type="button">
-            Create new account
-          </button>
-        </Link>
+        <div className="btn btn-outline" style={{ textAlign: 'center', cursor: 'default' }}>
+          Create new account
+        </div>
       </div>
     </div>
   );
