@@ -63,46 +63,42 @@ a { color: inherit; text-decoration: none; }
 
 .form { width: 100%; display: flex; flex-direction: column; gap: 12px; }
 
-/* floating-label field */
+/* floating-label field (input always focusable & typeable) */
 .field {
   position: relative;
   border: 1px solid var(--field-border);
   border-radius: 12px;
   background: var(--field-bg);
-  padding: 10px 16px;
   transition: border-color .15s;
 }
 .field:focus-within { border-color: var(--blue); }
-.field label {
-  display: block;
-  color: var(--muted);
-  font-size: 17px;
-  transition: all .12s ease;
-  pointer-events: none;
-}
-.field.filled label,
-.field:focus-within label {
-  font-size: 12px;
-  color: var(--muted);
-}
 .field input {
   width: 100%;
+  box-sizing: border-box;
   border: none;
   outline: none;
   background: transparent;
   color: var(--text);
   font-size: 17px;
-  padding: 0;
-  margin-top: 2px;
-  height: 0;
-  opacity: 0;
-  transition: none;
+  padding: 22px 16px 8px;
+  border-radius: 12px;
 }
-.field.filled input,
-.field:focus-within input {
-  height: auto;
-  opacity: 1;
-  margin-top: 4px;
+/* label acts as placeholder when empty, floats up when focused/filled */
+.field label {
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--muted);
+  font-size: 17px;
+  transition: all .12s ease;
+  pointer-events: none;
+}
+.field input:focus + label,
+.field input:not(:placeholder-shown) + label {
+  top: 11px;
+  transform: none;
+  font-size: 12px;
 }
 
 .btn {

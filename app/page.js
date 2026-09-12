@@ -52,26 +52,28 @@ export default function LoginPage() {
       <div className="grow" />
 
       <form className="form" onSubmit={handleLogin}>
-        <div className={'field' + (username ? ' filled' : '')}>
-          <label htmlFor="username">Username, email or mobile number</label>
+        <div className="field">
           <input
             id="username"
             type="text"
+            placeholder=" "
             autoCapitalize="none"
             autoCorrect="off"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
           />
+          <label htmlFor="username">Username, email or mobile number</label>
         </div>
 
-        <div className={'field' + (password ? ' filled' : '')}>
-          <label htmlFor="password">Password</label>
+        <div className="field">
           <input
             id="password"
             type="password"
+            placeholder=" "
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
+          <label htmlFor="password">Password</label>
         </div>
 
         <button className="btn btn-primary" type="submit" disabled={loading}>
@@ -89,7 +91,6 @@ export default function LoginPage() {
             Create new account
           </button>
         </Link>
-        <div className="brand">STUDY CENTER</div>
       </div>
     </div>
   );

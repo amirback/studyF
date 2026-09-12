@@ -58,16 +58,17 @@ export default function RegisterPage() {
 
       <form className="form" onSubmit={handleRegister}>
         {fields.map((f) => (
-          <div key={f.k} className={'field' + (form[f.k] ? ' filled' : '')}>
-            <label htmlFor={f.k}>{f.label}</label>
+          <div key={f.k} className="field">
             <input
               id={f.k}
               type={f.type}
+              placeholder=" "
               autoCapitalize={f.k === 'name' ? 'words' : 'none'}
               autoCorrect="off"
               value={form[f.k]}
               onChange={set(f.k)}
             />
+            <label htmlFor={f.k}>{f.label}</label>
           </div>
         ))}
 
@@ -84,7 +85,6 @@ export default function RegisterPage() {
             I already have an account
           </button>
         </Link>
-        <div className="brand">STUDY CENTER</div>
       </div>
     </div>
   );

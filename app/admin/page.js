@@ -86,14 +86,15 @@ export default function AdminPage() {
           className="form"
           onSubmit={(e) => { e.preventDefault(); load(key); }}
         >
-          <div className={'field' + (key ? ' filled' : '')}>
-            <label htmlFor="key">Admin password</label>
+          <div className="field">
             <input
               id="key"
               type="password"
+              placeholder=" "
               value={key}
               onChange={(e) => setKey(e.target.value)}
             />
+            <label htmlFor="key">Admin password</label>
           </div>
           <button className="btn btn-primary" type="submit" disabled={loading}>
             {loading ? '...' : 'Enter'}

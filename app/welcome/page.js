@@ -9,14 +9,15 @@ function WelcomeInner() {
   const name = params.get('u') || 'student';
   return (
     <div className="center">
-      <h1>Welcome, {name} 👋</h1>
-      <p>You are logged in to the Study Center.</p>
+      <div style={{ fontSize: 56 }}>✅</div>
+      <h1>Successful!</h1>
+      <p>You are logged in{name ? ' as ' + name : ''}.</p>
       <button
         className="btn btn-primary"
         style={{ maxWidth: 240 }}
         onClick={() => router.push('/')}
       >
-        Log out
+        Back
       </button>
     </div>
   );
