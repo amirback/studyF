@@ -1,3 +1,5 @@
+import './globals.css';
+
 export const metadata = {
   title: 'Study Center — Login',
   description: 'Login and registration for the study center',
